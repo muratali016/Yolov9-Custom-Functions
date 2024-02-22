@@ -1,4 +1,12 @@
+ # Yolov9 Custom functions 
 
 
-https://github.com/muratali016/yolov9/assets/77502485/cf7d0b86-1ff3-4688-8595-c414fdaea200
+
+https://github.com/muratali016/yolov9/assets/77502485/18e6352b-de4b-4605-b9bd-3fdb2f3cf0ec
+
+
+
+
+
+
 
