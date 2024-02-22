@@ -147,8 +147,8 @@ def run(
                     founded_classes[names[class_index]]=int(n)                   
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
                     count(founded_classes=founded_classes,im0=imc)
-                    print("founded_classes",founded_classes)
-                    censored=eval(get_response(founded_classes))
+                print("found_classes",founded_classes)
+                censored=eval(get_response(founded_classes))
 
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
