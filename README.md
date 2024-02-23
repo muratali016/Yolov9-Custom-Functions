@@ -1,8 +1,10 @@
  # Yolov9 Custom functions 
 Additional files are "detect_and_blur.py" and "llm.py"
 
+#### Change the api key in "llm.py" file
+
 **Features**
-* Blur any unwanted object in videos/images 
+* Blur any unwanted object in videos/images with help of gpt
 * Count all objetcs by classes and works perfectly on every image or on a video
 * Code can run on Both (CPU & GPU)
 * Video/WebCam/External Camera/IP Stream Supported
