@@ -9,7 +9,9 @@ Additional files are "detect_and_blur.py" and "llm.py"
 
 
 ### Video
-https://www.youtube.com/watch?v=5sKWnyUtIMk
+
+https://github.com/muratali016/Yolov9-Custom-Functions/assets/77502485/f46700a1-7aa2-4e2b-883f-b040c7d17181
+
 
 ### Ready to use tracking Google Colab file https://colab.research.google.com/drive/153_sLjfXgfdnApeBhossIVwDnCVExPL9?usp=sharing
 
