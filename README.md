@@ -16,9 +16,8 @@ Additional files are "detect_and_blur.py" and "llm.py"
 https://github.com/muratali016/Yolov9-Custom-Functions/assets/77502485/f46700a1-7aa2-4e2b-883f-b040c7d17181
 
 
-### Ready to use tracking Google Colab file https://colab.research.google.com/drive/153_sLjfXgfdnApeBhossIVwDnCVExPL9?usp=sharing
+### Ready to use blurring Google Colab file https://colab.research.google.com/drive/153_sLjfXgfdnApeBhossIVwDnCVExPL9?usp=sharing
 
-### Video Inpainting with AI
-
+### Ready to use inpainting Google Colab file https://colab.research.google.com/drive/1LMXgwq13C4mxsbV5vlMgGsSVoHpLIXpt?usp=sharing
 
 
