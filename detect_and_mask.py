@@ -172,7 +172,23 @@ def run(
                     print("Middle Point:", middle_point)
 
 
-                    im0[int(xyxy[1]):int(xyxy[3]), int(xyxy[0]):int(xyxy[2])] = 0
+                    if im0.shape[2] == 3:
+                        im0 = cv2.cvtColor(im0, cv2.COLOR_BGR2BGRA)
+                    
+                    # Extract coordinates for the region to modify
+                    x1, y1, x2, y2 = int(xyxy[0]), int(xyxy[1]), int(xyxy[2]), int(xyxy[3])
+                    
+                    # Ensure the region is within the bounds of the image
+                    x1 = max(0, x1)
+                    y1 = max(0, y1)
+                    x2 = min(im0.shape[1], x2)
+                    y2 = min(im0.shape[0], y2)
+                    
+                    # Set the alpha channel of the defined region to 0 (fully transparent)
+                    im0[y1:y2, x1:x2, 3] = 0  # Set alpha to 0 for transparency
+                    
+                    # Save the image or continue processing
+                    cv2.imwrite("transparent_region_output.png", im0)
 
                     #blur = cv2.blur(crop_obj,(blurratio,blurratio))
                     #im0[int(xyxy[1]):int(xyxy[3]),int(xyxy[0]):int(xyxy[2])] = blur
