@@ -18,7 +18,7 @@ from utils.general import (LOGGER, Profile, check_file, check_img_size, check_im
                            increment_path, non_max_suppression, print_args, scale_boxes, strip_optimizer, xyxy2xywh)
 from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import select_device, smart_inference_mode
-from PIL import Image
+from PIL import Image, ExifTags
 import openai
 
 
@@ -203,13 +203,8 @@ def run(
                       image_path = source  # Replace with the path to the base image
                       client = openai.OpenAI(api_key=api_key_openai)
   
-                      image = Image.open(image_path).convert("RGBA")
-                      image_png_path = "/content/img_png.png"
-                      image.save(image_png_path, format="PNG")
-  
-  
                       response = client.images.edit(
-                          image=open(image_png_path, "rb"),
+                          image=open(image_path, "rb"),
                           mask=open(mask_path, "rb"),
                           prompt=prompt,
                           n=1,
