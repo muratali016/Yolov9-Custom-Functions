@@ -3,7 +3,7 @@ import os
 import platform
 import sys
 from pathlib import Path
-from llm import get_response
+#from llm import get_response
 import torch
 import numpy as np
 FILE = Path(__file__).resolve()
@@ -148,7 +148,7 @@ def run(
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
                     count(founded_classes=founded_classes,im0=imc)
                 print("found_classes",founded_classes)
-                censored=eval(get_response(founded_classes))
+                #censored=eval(get_response(founded_classes))
 
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
