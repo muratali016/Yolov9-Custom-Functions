@@ -3,7 +3,7 @@ import os
 import platform
 import sys
 from pathlib import Path
-#from llm import get_response
+from llm import get_response
 import torch
 import numpy as np
 FILE = Path(__file__).resolve()
@@ -65,6 +65,8 @@ def run(
         half=False,  # use FP16 half-precision inference
         dnn=False,  # use OpenCV DNN for ONNX inference
         vid_stride=1,  # video frame-rate stride
+        prompt="",
+        api_key_openai=""
 ):
     source = str(source)
     save_img = not nosave and not source.endswith('.txt')  # save inference images
@@ -151,7 +153,7 @@ def run(
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
                     count(founded_classes=founded_classes,im0=imc)
                 print("found_classes",founded_classes)
-                #censored=eval(get_response(founded_classes))
+                censored=eval(get_response(founded_classes))
 
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
@@ -174,24 +176,47 @@ def run(
                     print("Bottom Edge:", bottom_edge)
                     print("Middle Point:", middle_point)
 
+                    if names[int(cls)] in censored:
+                      
+                      if im0.shape[2] == 3:
+                          im0 = cv2.cvtColor(im0, cv2.COLOR_BGR2BGRA)
+                      
+                      # Extract coordinates for the region to modify
+                      x1, y1, x2, y2 = int(xyxy[0]), int(xyxy[1]), int(xyxy[2]), int(xyxy[3])
+                      
+                      # Ensure the region is within the bounds of the image
+                      x1 = max(0, x1)
+                      y1 = max(0, y1)
+                      x2 = min(im0.shape[1], x2)
+                      y2 = min(im0.shape[0], y2)
+                      
+                      # Set the alpha channel of the defined region to 0 (fully transparent)
+                      im0[y1:y2, x1:x2, 3] = 0  # Set alpha to 0 for transparency
+                      
+                      # Save the image or continue processing
+                      cv2.imwrite("transparent_region_output.png", im0)
+  
+                      mask_path = str(save_dir / 'transparent_region_output.png')
+                      cv2.imwrite(mask_path, im0)
+  
+                      # OpenAI API call integration
+                      image_path = source  # Replace with the path to the base image
+                      client = openai.OpenAI(api_key=api_key_openai)
+  
+                      image = Image.open(image_path).convert("RGBA")
+                      image_png_path = "/content/img_png.png"
+                      image.save(image_png_path, format="PNG")
+  
+  
+                      response = client.images.edit(
+                          image=open(image_png_path, "rb"),
+                          mask=open(mask_path, "rb"),
+                          prompt=prompt,
+                          n=1,
+                          size="1024x1024"
+                      )
+                      print("OpenAI API response:", response)
 
-                    if im0.shape[2] == 3:
-                        im0 = cv2.cvtColor(im0, cv2.COLOR_BGR2BGRA)
-                    
-                    # Extract coordinates for the region to modify
-                    x1, y1, x2, y2 = int(xyxy[0]), int(xyxy[1]), int(xyxy[2]), int(xyxy[3])
-                    
-                    # Ensure the region is within the bounds of the image
-                    x1 = max(0, x1)
-                    y1 = max(0, y1)
-                    x2 = min(im0.shape[1], x2)
-                    y2 = min(im0.shape[0], y2)
-                    
-                    # Set the alpha channel of the defined region to 0 (fully transparent)
-                    im0[y1:y2, x1:x2, 3] = 0  # Set alpha to 0 for transparency
-                    
-                    # Save the image or continue processing
-                    cv2.imwrite("transparent_region_output.png", im0)
 
                     #blur = cv2.blur(crop_obj,(blurratio,blurratio))
                     #im0[int(xyxy[1]):int(xyxy[3]),int(xyxy[0]):int(xyxy[2])] = blur
@@ -255,6 +280,8 @@ def parse_opt():
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'yolo.pt', help='model path or triton URL')
     parser.add_argument('--source', type=str, default=ROOT / 'data/images', help='file/dir/URL/glob/screen/0(webcam)')
+    parser.add_argument('--prompt', type=str)
+    parser.add_argument('--api_key_openai', type=str)
     parser.add_argument('--data', type=str, default=ROOT / 'data/coco128.yaml', help='(optional) dataset.yaml path')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
     parser.add_argument('--conf-thres', type=float, default=0.25, help='confidence threshold')
