@@ -11,14 +11,16 @@ Additional files are "detect_and_blur.py" and "llm.py"
 * Inpaint the images with Dalle 2
 
 
-### Video Blurring
-
-https://github.com/muratali016/Yolov9-Custom-Functions/assets/77502485/f46700a1-7aa2-4e2b-883f-b040c7d17181
 
 ### Video Inpainting
 
 
 https://github.com/user-attachments/assets/24b5da9d-df1c-463d-8874-6a29930eb4d3
+
+### Video Blurring
+
+https://github.com/muratali016/Yolov9-Custom-Functions/assets/77502485/f46700a1-7aa2-4e2b-883f-b040c7d17181
+
 
 
 ### Ready to use blurring Google Colab file https://colab.research.google.com/drive/153_sLjfXgfdnApeBhossIVwDnCVExPL9?usp=sharing
