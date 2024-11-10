@@ -1,5 +1,5 @@
  # Yolov9 Custom functions 
-Additional files are "detect_and_blur.py" and "llm.py"
+Additional files are  "detect_and_mask.py", "detect_and_blur.py", "detect_and aim.py" and "llm.py"
 
 #### Change the api key in "llm.py" file
 
